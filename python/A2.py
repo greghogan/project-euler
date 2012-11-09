@@ -13,7 +13,6 @@ By considering the terms in the Fibonacci sequence whose values do not exceed
 four million, find the sum of the even-valued terms.
 """
 
-
 def naive():
     """Compute simple sum of even values from the Fibonacci sequence.
 

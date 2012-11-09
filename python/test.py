@@ -4,7 +4,6 @@
 Run doctests on all local modules.
 """
 
-
 import doctest
 import glob
 import os
