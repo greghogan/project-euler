@@ -75,6 +75,8 @@ def naive(n, factors):
     1507660080
     >>> naive(10**5, [3, 6, 9])
     1666683333
+    >>> direct(10**5, [3, 3, 6, 6, 9, 9])
+    1666683333
     >>> naive(1000, [3, 5])
     233168
     """
@@ -106,6 +108,8 @@ def direct(n, factors):
     1507660080
     >>> direct(10**5, [3, 6, 9])
     1666683333
+    >>> direct(10**5, [3, 3, 6, 6, 9, 9])
+    1666683333
     >>> direct(1000, [3, 5])
     233168
     """
@@ -115,7 +119,8 @@ def direct(n, factors):
         return n * p * (p+1) / 2
 
     # Remove factors which are evenly divisible by another factor; this is an optimization and not required
-    f = [x for x in factors if not any(x != y and x % y == 0 for y in factors)]
+    distinct_factors = set(factors)
+    f = [x for x in distinct_factors if not any(x != y and x % y == 0 for y in distinct_factors)]
 
     # The inclusion-exclusion principle:  sum the multiples of each factor,
     # then substract the sum of multiples of the LCM of each pair of factors,
