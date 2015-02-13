@@ -63,7 +63,7 @@ def naive(n, factors):
 
     >>> naive(10, [3, 5])
     23
-    >>> direct(10**5, [4, 6])
+    >>> naive(10**5, [4, 6])
     1666583334
     >>> naive(10**5, [2, 3, 5])
     3666683332
@@ -75,7 +75,7 @@ def naive(n, factors):
     1507660080
     >>> naive(10**5, [3, 6, 9])
     1666683333
-    >>> direct(10**5, [3, 3, 6, 6, 9, 9])
+    >>> naive(10**5, [3, 3, 6, 6, 9, 9])
     1666683333
     >>> naive(1000, [3, 5])
     233168
@@ -84,7 +84,7 @@ def naive(n, factors):
     return sum(x for x in range(n) if any(x % f == 0 for f in factors))
 
 
-def direct(n, factors):
+def inclusion_exclusion(n, factors):
     """Compute the sum of numbers less than n which are multiples of factors.
     This runs in constant time.
 
@@ -94,23 +94,23 @@ def direct(n, factors):
 
     The sum of multiples of n below N is n*p*(p+1)/2 where p=(N-1)/n
 
-    >>> direct(10, [3, 5])
+    >>> inclusion_exclusion(10, [3, 5])
     23
-    >>> direct(10**5, [4, 6])
+    >>> inclusion_exclusion(10**5, [4, 6])
     1666583334
-    >>> direct(10**5, [2, 3, 5])
+    >>> inclusion_exclusion(10**5, [2, 3, 5])
     3666683332
-    >>> direct(10**5, [2, 3, 5, 7])
+    >>> inclusion_exclusion(10**5, [2, 3, 5, 7])
     3857107139
-    >>> direct(10**5, [7, 13, 17, 29, 31])
+    >>> inclusion_exclusion(10**5, [7, 13, 17, 29, 31])
     1520917441
-    >>> direct(10**5, range(14, 20))
+    >>> inclusion_exclusion(10**5, range(14, 20))
     1507660080
-    >>> direct(10**5, [3, 6, 9])
+    >>> inclusion_exclusion(10**5, [3, 6, 9])
     1666683333
-    >>> direct(10**5, [3, 3, 6, 6, 9, 9])
+    >>> inclusion_exclusion(10**5, [3, 3, 6, 6, 9, 9])
     1666683333
-    >>> direct(1000, [3, 5])
+    >>> inclusion_exclusion(1000, [3, 5])
     233168
     """
 

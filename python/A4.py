@@ -10,6 +10,28 @@ the product of two 2-digit numbers is 9009 = 91 * 99.
 Find the largest palindrome made from the product of two 3-digit numbers.
 """
 
+def naive(low, high):
+    """Compute all products of 3-digit numbers to find the largest palindrome.
+
+    >>> naive(10, 99)
+    9009
+    >>> naive(100, 999)
+    906609
+    """
+
+    largest = 0
+
+    for x in range(low, high+1):
+        for y in range(x, high+1):
+            prod = x * y
+            prod_str = str(prod)
+
+            if prod_str == prod_str[::-1]:
+                largest = max(largest, prod)
+
+    return largest
+
+
 def short_circuit(low, high):
     """Compute products of 3-digit numbers to find the largest palindrome,
     skipping over ranges that are too small.
@@ -36,28 +58,6 @@ def short_circuit(low, high):
                 break
 
             prod_str = str(x * y)
-            if prod_str == prod_str[::-1]:
-                largest = max(largest, prod)
-
-    return largest
-
-
-def naive(low, high):
-    """Compute all products of 3-digit numbers to find the largest palindrome.
-
-    >>> naive(10, 99)
-    9009
-    >>> naive(100, 999)
-    906609
-    """
-
-    largest = 0
-
-    for x in range(low, high+1):
-        for y in range(x, high+1):
-            prod = x * y
-            prod_str = str(prod)
-
             if prod_str == prod_str[::-1]:
                 largest = max(largest, prod)
 
