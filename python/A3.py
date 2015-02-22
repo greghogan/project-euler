@@ -55,10 +55,11 @@ def prime_generator(n=None):
 
     while not n or next_integer <= n:
         is_prime = True
+        square_root = int(math.sqrt(next_integer))
 
         for prime in odd_primes:
-            # Factors must be less than the square root
-            if next_integer < prime * prime:
+            # Factors must be less than or equal to the square root
+            if square_root < prime:
                 break
 
             # Composite if evenly divisible
