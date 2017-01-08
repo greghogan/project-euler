@@ -1,1 +1,8 @@
+.DS_Store
+.idea/
+.project
+.pydevproject
+.settings/
+overview/*.pdf
+*.iml
 *.pyc

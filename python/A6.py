@@ -37,6 +37,7 @@ Find the difference between the sum of the squares of the first one hundred
 natural numbers and the square of the sum.
 """
 
+
 def naive(n):
     """Compute the difference of the square of sums and sum of squares by
     simple summation.
@@ -69,8 +70,8 @@ def formula(n):
     2500166641665000
     """
 
-    square_of_sums = (n * (n+1) / 2) ** 2
-    sum_of_squares = (2*n + 1) * (n + 1) * n / 6
+    square_of_sums = (n * (n+1) // 2) ** 2
+    sum_of_squares = (2*n + 1) * (n + 1) * n // 6
 
     return square_of_sums - sum_of_squares
 

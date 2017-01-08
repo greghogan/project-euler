@@ -34,7 +34,8 @@ numbers from 1 to 20?
 import collections
 import math
 
-import A3
+from A3 import factor_list, prime_generator
+
 
 def direct():
     """Compute product of prime factors. For each consecutive number, factors
@@ -55,12 +56,15 @@ def factor_map(n):
     {29: 1}
     >>> factor_map(72)
     {2: 3, 3: 2}
+    >>> factor_map(30850)
+    {617: 1, 2: 1, 5: 2}
     """
-    map = {}
-    for factor in A3.factor_list(n):
-        map[factor] = map.get(factor, 0) + 1
 
-    return map
+    factors = {}
+    for factor in factor_list(n):
+        factors[factor] = factors.get(factor, 0) + 1
+
+    return factors
 
 
 def computed_with_factorizations(n):
@@ -73,20 +77,20 @@ def computed_with_factorizations(n):
     >>> computed_with_factorizations(40)
     5342931457063200
     >>> computed_with_factorizations(80)
-    32433859254793982911622772305630400L
+    32433859254793982911622772305630400
     >>> computed_with_factorizations(160)
-    117671955487901874837890815641362681946988303003141220897970719568000L
+    117671955487901874837890815641362681946988303003141220897970719568000
     """
 
     prime_count = collections.defaultdict(int)
 
     for i in range(2, n+1):
-        for factor, count in factor_map(i).iteritems():
+        for factor, count in factor_map(i).items():
             if count > prime_count[factor]:
                 prime_count[factor] = count
 
     product = 1
-    for factor, count in prime_count.iteritems():
+    for factor, count in prime_count.items():
         product *= factor ** count
 
     return product
@@ -102,13 +106,13 @@ def computed_with_prime_powers(n):
     >>> computed_with_prime_powers(40)
     5342931457063200
     >>> computed_with_prime_powers(80)
-    32433859254793982911622772305630400L
+    32433859254793982911622772305630400
     >>> computed_with_prime_powers(160)
-    117671955487901874837890815641362681946988303003141220897970719568000L
+    117671955487901874837890815641362681946988303003141220897970719568000
     """
 
     product = 1
-    for prime in A3.prime_generator(n):
+    for prime in prime_generator(n):
         count = int(math.log(n, prime))
         product *= prime ** count
 

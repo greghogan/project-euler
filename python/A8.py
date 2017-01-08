@@ -27,13 +27,15 @@ Problem 8
 Find the greatest product of five consecutive digits in the 1000-digit number.
 """
 
+import functools
 import operator
+
 
 def naive(n, d):
     """Compute the largest product of consecutive digits by computation of each
     grouping of digits.
 
-    >>> number = "\
+    >>> number = '''\
 73167176531330624919225119674426574742355349194934\
 96983520312774506326239578318016984801869478851843\
 85861560789112949495459501737958331952853208805511\
@@ -53,7 +55,7 @@ def naive(n, d):
 07198403850962455444362981230987879927244284909188\
 84580156166097919133875499200524063689912560717606\
 05886116467109405077541002256983155200055935729725\
-71636269561882670428252483600823257530420752963450"
+71636269561882670428252483600823257530420752963450'''
     >>> naive(number, 1)
     9
     >>> naive(number, 5)
@@ -61,7 +63,7 @@ def naive(n, d):
     >>> naive(number, 13)
     23514624000
     >>> naive(number, 42)
-    7730627145264456007680000000L
+    7730627145264456007680000000
     >>> naive(number, 100)
     0
     """
@@ -69,7 +71,7 @@ def naive(n, d):
     largest = 0
 
     for idx in range(len(n) - d + 1):
-        product = reduce(operator.mul, (int(i) for i in n[idx:idx+d]))
+        product = functools.reduce(operator.mul, (int(i) for i in n[idx:idx+d]))
         largest = max(largest, product)
 
     return largest
@@ -80,7 +82,7 @@ def sliding_window(n, d):
     requires one multiplication and one division. Since zero cannot be divided
     process the digits in groups as separated by zeros.
 
-    >>> number = "\
+    >>> number = '''\
 73167176531330624919225119674426574742355349194934\
 96983520312774506326239578318016984801869478851843\
 85861560789112949495459501737958331952853208805511\
@@ -100,15 +102,15 @@ def sliding_window(n, d):
 07198403850962455444362981230987879927244284909188\
 84580156166097919133875499200524063689912560717606\
 05886116467109405077541002256983155200055935729725\
-71636269561882670428252483600823257530420752963450"
+71636269561882670428252483600823257530420752963450'''
     >>> sliding_window(number, 1)
     9
     >>> sliding_window(number, 5)
     40824
+    >>> sliding_window(number, 13)
+    23514624000
     >>> sliding_window(number, 42)
-    7730627145264456007680000000L
-    >>> sliding_window(number, 42)
-    7730627145264456007680000000L
+    7730627145264456007680000000
     >>> sliding_window(number, 100)
     0
     """
@@ -121,11 +123,11 @@ def sliding_window(n, d):
 
         digits = [int(i) for i in section]
 
-        product = reduce(operator.mul, (i for i in digits[:d]))
+        product = functools.reduce(operator.mul, (i for i in digits[:d]))
         largest = max(largest, product)
 
         for x in range(len(digits) - d):
-            product = product * digits[x+d] / digits[x]
+            product = product * digits[x+d] // digits[x]
             largest = max(largest, product)
 
     return largest

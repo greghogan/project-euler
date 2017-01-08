@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # Copyright Greg Hogan, 2012. Last modified 2016.
 #
@@ -33,7 +34,9 @@ Using the rule above and starting with 13, we generate the following sequence:
 
     13 → 40 → 20 → 10 → 5 → 16 → 8 → 4 → 2 → 1
 
-It can be seen that this sequence (starting at 13 and finishing at 1) contains 10 terms. Although it has not been proved yet (Collatz Problem), it is thought that all starting numbers finish at 1.
+It can be seen that this sequence (starting at 13 and finishing at 1) contains
+10 terms. Although it has not been proved yet (Collatz Problem), it is thought
+that all starting numbers finish at 1.
 
 Which starting number, under one million, produces the longest chain?
 
@@ -41,6 +44,7 @@ NOTE: Once the chain starts the terms are allowed to go above one million.
 """
 
 memory = {1: 1}
+
 
 def collatz_chain_length(number):
     """The length of the collatz chain initialized with the given number.
@@ -57,11 +61,11 @@ def collatz_chain_length(number):
         return memory[number]
 
     if number & 1:
-        next = 3 * number + 1
+        next_number = 3 * number + 1
     else:
-        next = number // 2
+        next_number = number // 2
 
-    memory[number] = collatz_chain_length(next) + 1
+    memory[number] = collatz_chain_length(next_number) + 1
 
     return memory[number]
 

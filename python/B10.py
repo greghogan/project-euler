@@ -29,7 +29,8 @@ The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
 Find the sum of all the primes below two million.
 """
 
-import A3
+from A3 import prime_generator
+
 
 def sum_primes_below(n):
     """Compute the sum of primes below the given threshold.
@@ -40,7 +41,7 @@ def sum_primes_below(n):
     142913828922
     """
 
-    return sum(A3.prime_generator(n))
+    return sum(prime_generator(n))
 
 
 if __name__ == "__main__":

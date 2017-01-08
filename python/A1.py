@@ -30,7 +30,9 @@ get 3, 5, 6 and 9. The sum of these multiples is 23.
 Find the sum of all the multiples of 3 or 5 below 1000.
 """
 
+import functools
 import itertools
+
 
 def gcd(*integers):
     """Compute the Greatest Common Divisor of a list of integers.
@@ -54,7 +56,7 @@ def gcd(*integers):
     if any(i < 0 for i in integers):
         raise Exception('GCD input must be non-negative integers')
 
-    return reduce(_gcd, integers)
+    return functools.reduce(_gcd, integers)
 
 
 def lcm(*integers):
@@ -69,17 +71,17 @@ def lcm(*integers):
     """
 
     def _lcm(a, b):
-        return a * (b / gcd(a, b))
+        return a * (b // gcd(a, b))
 
     if any(i < 0 for i in integers):
         raise Exception('LCM input must be non-negative integers')
 
-    return reduce(_lcm, integers)
+    return functools.reduce(_lcm, integers)
 
 
 def naive(n, factors):
-    """Compute the sum of numbers less than n which are multiples of factors.
-    This runs in linear time.
+    """Compute the sum of numbers less than n which are multiples of one or
+    more factors. This runs in linear time.
 
     >>> naive(10, [3, 5])
     23
@@ -104,9 +106,9 @@ def naive(n, factors):
     return sum(x for x in range(n) if any(x % f == 0 for f in factors))
 
 
-def inclusion_exclusion(n, factors):
-    """Compute the sum of numbers less than n which are multiples of factors.
-    This runs in constant time.
+def inclusion_exclusion(limit, factors):
+    """Compute the sum of numbers less than limit which are multiples of one or
+    more factors. This runs in constant time.
 
     The multiples of 3 below 1000 are 3, 6, 9, ... 996, 999.
     The multiples of 5 below 1000 are 5, 10, 15, ... 990, 995.
@@ -134,18 +136,19 @@ def inclusion_exclusion(n, factors):
     233168
     """
 
-    def sum_of_multiples(N, n):
-        p = (N-1) // n
-        return n * p * (p+1) / 2
+    def sum_of_multiples(_limit, n):
+        p = (_limit - 1) // n
+        return n * p * (p + 1) // 2
 
     # Remove factors which are evenly divisible by another factor; this is an optimization and not required
     distinct_factors = set(factors)
     f = [x for x in distinct_factors if not any(x != y and x % y == 0 for y in distinct_factors)]
 
     # The inclusion-exclusion principle:  sum the multiples of each factor,
-    # then substract the sum of multiples of the LCM of each pair of factors,
+    # then subtract the sum of multiples of the LCM of each pair of factors,
     # then add the sum of multiples of the LCM of each triplet of factors, ...
-    return sum((1 if k % 2 else -1) * sum(sum_of_multiples(n, lcm(*c)) for c in itertools.combinations(f, k)) for k in range(1, len(f) + 1))
+    return sum((1 if k % 2 else -1) * sum(sum_of_multiples(limit, lcm(*c))
+                                          for c in itertools.combinations(f, k)) for k in range(1, len(f) + 1))
 
 
 if __name__ == "__main__":

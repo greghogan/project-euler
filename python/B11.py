@@ -51,11 +51,14 @@ In the 20x20 grid below, four numbers along a diagonal line have been marked in 
 
 The product of these numbers is 26 x 63 x 78 x 14 = 1788696.
 
-What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the 20x20 grid?
+What is the greatest product of four adjacent numbers in the same direction
+(up, down, left, right, or diagonally) in the 20x20 grid?
 """
 
+import functools
 import operator
 import os
+
 
 def scan(filename, count):
     """Find the largest product of a line of numbers of the given length from
@@ -90,35 +93,35 @@ def scan(filename, count):
         # across
         for y in range(h):
             for x in range(w - count + 1):
-                product = reduce(operator.mul, (grid[y][x+i] for i in range(count)))
+                product = functools.reduce(operator.mul, (grid[y][x+i] for i in range(count)))
                 largest = max(largest, product)
 
         # down
         for x in range(w):
             for y in range(h - count + 1):
-                product = reduce(operator.mul, (grid[y+i][x] for i in range(count)))
+                product = functools.reduce(operator.mul, (grid[y+i][x] for i in range(count)))
                 largest = max(largest, product)
 
         # upper right
         for y in range(h - count + 1):
             for x in range(y, w - count + 1):
                 # down and right
-                product = reduce(operator.mul, (grid[y+i][x+i] for i in range(count)))
+                product = functools.reduce(operator.mul, (grid[y+i][x+i] for i in range(count)))
                 largest = max(largest, product)
 
                 # up and right
-                product = reduce(operator.mul, (grid[h-y-i-1][x+i] for i in range(count)))
+                product = functools.reduce(operator.mul, (grid[h-y-i-1][x+i] for i in range(count)))
                 largest = max(largest, product)
 
         # lower left
         for x in range(w - count + 1):
             for y in range(x, h - count + 1):
                 # down and right
-                product = reduce(operator.mul, (grid[y+i][x+i] for i in range(count)))
+                product = functools.reduce(operator.mul, (grid[y+i][x+i] for i in range(count)))
                 largest = max(largest, product)
 
                 # up and right
-                product = reduce(operator.mul, (grid[h-y-i-1][x+i] for i in range(count)))
+                product = functools.reduce(operator.mul, (grid[h-y-i-1][x+i] for i in range(count)))
                 largest = max(largest, product)
 
     return largest

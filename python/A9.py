@@ -35,13 +35,15 @@ There exists exactly one Pythagorean triplet for which a + b + c = 1000.
 Find the product abc.
 """
 
+import functools
 import heapq
 import itertools
 import math
 import operator
 
-import A1
-import A5
+from A1 import gcd
+from A5 import factor_map
+
 
 def naive(p):
     """Exhaustively test all triangles with perimeter p, returning the product
@@ -98,14 +100,15 @@ def pythagorean_triplet_generator(c_max=None):
     >>> list(pythagorean_triplet_generator(20))
     [(3, 4, 5), (5, 12, 13), (8, 15, 17)]
     >>> list(pythagorean_triplet_generator(70))
-    [(3, 4, 5), (5, 12, 13), (8, 15, 17), (7, 24, 25), (20, 21, 29), (12, 35, 37), (9, 40, 41), (28, 45, 53), (11, 60, 61), (16, 63, 65), (33, 56, 65)]
+    [(3, 4, 5), (5, 12, 13), (8, 15, 17), (7, 24, 25), (20, 21, 29), (12, 35, 37), (9, 40, 41), (28, 45, 53),\
+ (11, 60, 61), (16, 63, 65), (33, 56, 65)]
     """
 
-    def _push(h, m, n):
-        a, b, c = euclid_to_triplet(m, n)
+    def _push(_h, _m, _n):
+        _a, _b, _c = euclid_to_triplet(_m, _n)
 
-        if not c_max or c <= c_max:
-            heapq.heappush(h, (c, min(a, b), max(a, b), m, n))
+        if not c_max or _c <= c_max:
+            heapq.heappush(_h, (_c, min(_a, _b), max(_a, _b), _m, _n))
 
     h = []
     _push(h, 2, 1)
@@ -114,13 +117,13 @@ def pythagorean_triplet_generator(c_max=None):
         c, a, b, m, n = heapq.heappop(h)
 
         # m and n must be relatively prime for a, b, c to be a primitive Pythagorean triplet
-        if A1.gcd(m, n) == 1:
+        if gcd(m, n) == 1:
             yield a, b, c
 
-        # by Euclid's formula m > n and m + n must be odd
+        # By Euclid's formula m > n and m + n must be odd
         _push(h, m + 2, n)
 
-        # for a given m + n, c is minimized when m - n = 1, so generate the extra
+        # For a given m + n, c is minimized when m - n = 1, so generate the extra
         # parameter pair in this case
         if m - n == 1:
             _push(h, m + 1, n + 1)
@@ -142,7 +145,7 @@ def using_generator(p):
 
     c_max = p // (2 + math.sqrt(2))
     for a, b, c in pythagorean_triplet_generator(c_max + 1):
-        # check for scaled triangles of the primitive Pythagorean triplets
+        # Check for scaled triangles of the primitive Pythagorean triplets
         div, mod = divmod(p, a + b + c)
         if mod == 0:
             triplets.append((a * b * c * (div ** 3), a * div, b * div, c * div))
@@ -161,11 +164,11 @@ def divisor_list(n):
     [1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 24, 30, 40, 60, 120]
     """
 
-    factors = A5.factor_map(n)
+    factors = factor_map(n)
 
     factor_powers = (tuple(factor ** exp for exp in range(multiple + 1)) for factor, multiple in factors.items())
 
-    return sorted(reduce(operator.mul, data) for data in itertools.product(*factor_powers))
+    return sorted(functools.reduce(operator.mul, data) for data in itertools.product(*factor_powers))
 
 
 def euclids_formula(p):
@@ -186,7 +189,7 @@ def euclids_formula(p):
     # m(m+n) == p/2
     half_p = p // 2
 
-    # check each divisor to account for scaled triangles
+    # Check each divisor to account for scaled triangles
     for div in divisor_list(half_p):
         mul = half_p // div
 

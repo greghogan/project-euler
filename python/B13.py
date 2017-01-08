@@ -27,14 +27,17 @@ Problem 13
 Work out the first ten digits of the sum of the following one-hundred 50-digit numbers.
 """
 
+import os
+
+
 def first_10_digits_of_sum(filename):
-    """ Compute the first ten digits of the sum of numbers from the given filename.
+    """Compute the first ten digits of the sum of numbers from the given filename.
 
     >>> first_10_digits_of_sum("B13_numbers.txt")
     5537376230
     """
 
-    with open(filename, 'r') as file:
+    with open(os.path.join(os.path.dirname(__file__), filename)) as file:
         total = sum(int(line) for line in file)
         return int(str(total)[:10])
 

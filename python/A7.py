@@ -30,7 +30,8 @@ the 6th prime is 13.
 What is the 10,001st prime number?
 """
 
-import A3
+from A3 import prime_generator
+
 
 def find_nth_prime(n):
     """Compute the nth prime number using an unbounded prime generator.
@@ -43,10 +44,11 @@ def find_nth_prime(n):
     104743
     """
 
-    primes = A3.prime_generator()
+    primes = prime_generator()
+    prime = None
 
     for x in range(n):
-        prime = primes.next()
+        prime = next(primes)
 
     return prime
 

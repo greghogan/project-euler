@@ -31,6 +31,7 @@ What is the largest prime factor of the number 600851475143?
 
 import math
 
+
 def prime_generator(n=None):
     """Compute prime numbers.  If the optional integer is given, only numbers
     less than or equal to the given integer are returned.
@@ -85,6 +86,8 @@ def factor_list(n):
     [2, 2, 2, 3, 3]
     >>> factor_list(13195)
     [5, 7, 13, 29]
+    >>> factor_list(30850)
+    [2, 5, 5, 617]
     >>> factor_list(600851475143)
     [71, 839, 1471, 6857]
     """
@@ -96,10 +99,10 @@ def factor_list(n):
 
     try:
         while n > 1:
-            p = primes.next()
+            p = next(primes)
             while n % p == 0:
                 factors.append(p)
-                n /= p
+                n //= p
     except StopIteration:
         # The leftover quotient is prime
         factors.append(n)
